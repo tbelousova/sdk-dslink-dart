@@ -16,7 +16,8 @@ class ReqSubscribeListener implements StreamSubscription {
   }
 
   // TODO: define a custom class to replace StreamSubscription
-  Future asFuture([futureValue]) {
+  //Future asFuture([futureValue]) {
+  Future<T> asFuture<T>([T futureValue]) {
     return null;
   }
 

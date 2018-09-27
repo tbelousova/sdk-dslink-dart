@@ -5,12 +5,20 @@ import "dart:async";
 import "dart:collection";
 import "dart:typed_data";
 import 'dart:convert';
-import 'package:cipher/block/aes_fast.dart';
-import 'package:cipher/params/key_parameter.dart';
 
 import "common.dart";
 import "utils.dart";
 
+//FIXME:Dart1.0
+/*
+import 'package:cipher/block/aes_fast.dart';
+import 'package:cipher/params/key_parameter.dart';
+*/
+
+//FIXME:Dart2.0
+
+import "package:pointycastle/export.dart" hide PublicKey, PrivateKey;
+import "package:dslink/convert_consts.dart";
 
 
 

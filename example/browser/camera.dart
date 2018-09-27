@@ -4,6 +4,9 @@ import "dart:convert";
 import "dart:html";
 import "dart:typed_data";
 
+//FIXME:Dart2.0
+import "package:dslink/convert_consts.dart";
+
 LinkProvider link;
 MediaStream stream;
 VideoElement video;

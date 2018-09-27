@@ -34,7 +34,8 @@ List<dynamic> generate(List<int> publicKeyRemote, String oldPriKeyStr) {
 
   var Q2 = publicPointRemote * privateKey.d;
   return [
-    privateKey.d.toByteArray(),
+    /*privateKey.d.toByteArray()*/
+    bigIntegerToByteArray(privateKey.d),
     publicKey.Q.getEncoded(false),
     Q2.getEncoded(false)
   ];
@@ -67,7 +68,7 @@ class ECDHIsolate {
       _isolatePort = message;
     } else if (message is List) {
       if (_waitingReq != null && message.length == 3) {
-        var d1 = new BigInteger.fromBytes(1, message[0] as List<int>);
+        var d1 = newBigIntegerFromBytes(1, message[0] as List<int>);
         var Q1 = _secp256r1.curve.decodePoint(message[1] as List<int>);
         var Q2 = _secp256r1.curve.decodePoint(message[2] as List<int>);
         var ecdh = new ECDHImpl(

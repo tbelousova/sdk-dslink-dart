@@ -7,7 +7,19 @@ import "dart:typed_data";
 import "dart:math" as Math;
 import "dart:isolate";
 
-import "package:bignum/bignum.dart";
+
+//FIXME:Dart2.0
+
+import "package:pointycastle/digests/sha256.dart";
+import "package:pointycastle/ecc/ecc_fp.dart" as fp;
+import "package:pointycastle/export.dart" hide PublicKey, PrivateKey;
+
+
+import 'package:dslink/convert_consts.dart';
+
+
+//FIXME:Dart1.0
+/*
 import "package:cipher/cipher.dart" hide PublicKey, PrivateKey;
 import "package:cipher/digests/sha256.dart";
 import "package:cipher/key_generators/ec_key_generator.dart";
@@ -18,6 +30,7 @@ import "package:cipher/block/aes_fast.dart";
 
 import "package:cipher/ecc/ecc_base.dart";
 import "package:cipher/ecc/ecc_fp.dart" as fp;
+*/
 
 import "../pk.dart";
 import "../../../utils.dart";
@@ -31,27 +44,27 @@ ECDomainParameters get _secp256r1 {
     return __secp256r1;
   }
 
-  BigInteger q = new BigInteger(
+  var q = newBigInteger(
     "ffffffff00000001000000000000000000000000ffffffffffffffffffffffff", 16);
-  BigInteger a = new BigInteger(
+  var a = newBigInteger(
     "ffffffff00000001000000000000000000000000fffffffffffffffffffffffc", 16);
-  BigInteger b = new BigInteger(
+  var b = newBigInteger(
     "5ac635d8aa3a93e7b3ebbd55769886bc651d06b0cc53b0f63bce3c3e27d2604b", 16);
-  BigInteger g = new BigInteger(
+  var g = newBigInteger(
     "046b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c2964fe342e2fe1a7f9b8ee7eb4a7c0f9e162bce33576b315ececbb6406837bf51f5",
     16);
-  BigInteger n = new BigInteger(
+  var n = newBigInteger(
     "ffffffff00000000ffffffffffffffffbce6faada7179e84f3b9cac2fc632551", 16);
-  BigInteger h = new BigInteger("1", 16);
-  BigInteger seed =
-  new BigInteger("c49d360886e704936a6678e1139d26b7819f7e90", 16);
-  var seedBytes = seed.toByteArray();
+  var h = newBigInteger("1", 16);
+  var seed =
+  newBigInteger("c49d360886e704936a6678e1139d26b7819f7e90", 16);
+  var seedBytes =  bigIntegerToByteArray(seed);
 
   var curve = new fp.ECCurve(q, a, b);
   return new ECDomainParametersImpl(
     "secp256r1",
     curve,
-    curve.decodePoint(g.toByteArray()),
+    curve.decodePoint(bigIntegerToByteArray(g)),
     n,
     h,
     seedBytes
@@ -70,7 +83,9 @@ class DartCryptoProvider implements CryptoProvider {
     if (ECDHIsolate.running) {
       if (old is ECDHImpl) {
         return ECDHIsolate._sendRequest(
-            publicKeyRemote, old._ecPrivateKey.d.toRadix(16));
+            publicKeyRemote,
+            /*old._ecPrivateKey.d.toRadix(16))*/
+            bigIntegerToRadix(old._ecPrivateKey.d, 16));
       } else {
         return ECDHIsolate._sendRequest(publicKeyRemote, null);
       }
@@ -142,13 +157,13 @@ class DartCryptoProvider implements CryptoProvider {
   PrivateKey loadFromString(String str) {
     if (str.contains(" ")) {
       List ss = str.split(" ");
-      var d = new BigInteger.fromBytes(1, Base64.decode(ss[0]));
+      var d = newBigIntegerFromBytes(1, Base64.decode(ss[0]));
       ECPrivateKey pri = new ECPrivateKey(d, _secp256r1);
       var Q = _secp256r1.curve.decodePoint(Base64.decode(ss[1]));
       ECPublicKey pub = new ECPublicKey(Q, _secp256r1);
       return new PrivateKeyImpl(pri, pub);
     } else {
-      var d = new BigInteger.fromBytes(1, Base64.decode(str));
+      var d = newBigIntegerFromBytes(1, Base64.decode(str));
       ECPrivateKey pri = new ECPrivateKey(d, _secp256r1);
       return new PrivateKeyImpl(pri);
     }
@@ -211,7 +226,7 @@ class ECDHImpl extends ECDH {
 }
 
 class PublicKeyImpl extends PublicKey {
-  static final BigInteger publicExp = new BigInteger(65537);
+  static final publicExp = newBigInteger(65537);
 
   ECPublicKey ecPublicKey;
   String qBase64;
@@ -339,8 +354,8 @@ String bytes2hex(List<int> bytes) {
 
 /// BigInteger.toByteArray contains negative values, so we need a different version
 /// this version also remove the byte for sign, so it's not able to serialize negative number
-Uint8List bigintToUint8List(BigInteger input) {
-  List<int> rslt = input.toByteArray();
+Uint8List bigintToUint8List(input) {
+  List<int> rslt =  bigIntegerToByteArray(input);
   if (rslt.length > 32 && rslt[0] == 0){
     rslt = rslt.sublist(1);
   }

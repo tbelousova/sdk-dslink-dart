@@ -3,16 +3,18 @@ version: 0.6.2
 description: "DSA IoT Platform - DSLink SDK for Dart"
 homepage: "http://iot-dsa.org"
 dependencies:
-  args: "^0.13.4"
-  bignum: "^0.1.0"
-  cipher:
-    git: https://github.com/IOT-DSA/cipher.git
+  #args: "^0.13.4"
+  #bignum: "^0.1.0"
+  #cipher:
+  #  git: https://github.com/IOT-DSA/cipher.git
+  pointycastle: any
   logging: "^0.11.3"
   crypto: ">=0.9.2 <3.0.0"
   path: "^1.3.7"
   msgpack:
-    git: https://github.com/IOT-DSA/msgpack.dart.git
-  json_diff: "^0.1.2"
+    git: https://github.com/tbelousova/msgpack.dart
+  json_diff:
+    git: https://github.com/tbelousova/dart-json_diff
 authors:
   - Kenneth Endfinger <k.endfinger@dglogik.com>
   - Rick Zhou <z.zhou@dglogik.com>
@@ -21,10 +23,13 @@ authors:
   - Joel Trottier-Hebert <joel.trottier-hebert@acuitybrands.com>
 dev_dependencies:
   test: "any"
-  dsbroker:
-    git: "https://github.com/IOT-DSA/broker-dart.git"
-  browser: "^0.10.0"
+  #dsbroker:
+  #  git: "https://github.com/IOT-DSA/broker-dart.git"
+  #browser: "^0.10.0"
+  build_runner: '^0.10.0'
+  build_test: '^0.10.2'
+  build_web_compilers: '^0.4.0'
 environment:
-  sdk: ">=1.13.0"
+  sdk: ">=2.0.0"
 executables:
   dsbeacon: beacon
