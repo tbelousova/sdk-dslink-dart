@@ -17,7 +17,8 @@ import 'package:cipher/params/key_parameter.dart';
 
 //FIXME:Dart2.0
 
-import "package:pointycastle/export.dart" hide PublicKey, PrivateKey;
+import "package:pointycastle/block/aes_fast.dart";
+import "package:pointycastle/api.dart";
 import "package:dslink/convert_consts.dart";
 
 
