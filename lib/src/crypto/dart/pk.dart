@@ -9,17 +9,16 @@ import "dart:isolate";
 
 
 //FIXME:Dart2.0
-
-import "package:pointycastle/digests/sha256.dart";
+//*Dart2-open-block
 import "package:pointycastle/ecc/ecc_fp.dart" as fp;
 import "package:pointycastle/export.dart" hide PublicKey, PrivateKey;
-
+//Dart2-close-block*/
 
 import 'package:dslink/convert_consts.dart';
 
 
 //FIXME:Dart1.0
-/*
+/*Dart1-open-block
 import "package:cipher/cipher.dart" hide PublicKey, PrivateKey;
 import "package:cipher/digests/sha256.dart";
 import "package:cipher/key_generators/ec_key_generator.dart";
@@ -27,10 +26,10 @@ import "package:cipher/params/key_generators/ec_key_generator_parameters.dart";
 import "package:cipher/random/secure_random_base.dart";
 import "package:cipher/random/block_ctr_random.dart";
 import "package:cipher/block/aes_fast.dart";
-
 import "package:cipher/ecc/ecc_base.dart";
 import "package:cipher/ecc/ecc_fp.dart" as fp;
-*/
+Dart1-close-block*/
+
 
 import "../pk.dart";
 import "../../../utils.dart";
